@@ -3,16 +3,13 @@
     <div class="greetings">
       헬린이 💪
     </div>
-    <div>
-      <input class="settimer" type="text" placeholder="set your workout time" />
-    </div>
-    <div class="myTimer">
+    <div class="timer_loop">
       <h2>
         {{ seconds }}
       </h2>
     </div>
-    <div class="timerinput">
-      <button class="startBtn" @click="myTimer">{{ setTimer }}</button>
+    <div>
+      <button class="startBtn" @click="timerLoop">{{ timerBtn }}</button>
     </div>
   </div>
 </template>
@@ -22,8 +19,8 @@ export default {
   data() {
     return {
       count: "",
-      timeCounter: 180, //3분
-      setTimer: "start"
+      timeCounter: 10,
+      timerBtn: "start"
     };
   },
   mounted() {
@@ -31,15 +28,19 @@ export default {
   },
 
   methods: {
-    myTimer() {
+    timerLoop() {
       this.count++;
-      if (this.count < 181) {
+      if (this.count < 11) {
         this.timeCounter = this.timeCounter - 1;
-        setTimeout(this.myTimer, 1000);
+        setTimeout(this.timerLoop, 1000);
+        if (this.timeCounter <= 3) {
+          var elem = document.getElementsByClassName("timer_loop")[0];
+          elem.style.backgroundColor = "red";
+        }
       } else {
-        this.setTimer = "reset";
-
-        console.log("end");
+        alert("timeout");
+        this.count = 0;
+        this.timeCounter = 10;
       }
     }
   },
@@ -63,7 +64,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.greetings {
+  font-size: 20px;
+}
+.timer_loop {
+  margin-top: 50px;
+  border: 15px solid grey;
+}
+
 .startBtn {
+  margin-top: 50px;
   border: 1px;
   text-align: center;
   background-color: darkkhaki;
