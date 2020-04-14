@@ -1,6 +1,19 @@
 <template>
-  <div class="hello">
-    {{ seconds }}
+  <div>
+    <div class="greetings">
+      헬린이 💪
+    </div>
+    <div>
+      <input class="settimer" type="text" placeholder="set your workout time" />
+    </div>
+    <div class="myTimer">
+      <h2>
+        {{ seconds }}
+      </h2>
+    </div>
+    <div class="timerinput">
+      <button class="startBtn" @click="myTimer">{{ setTimer }}</button>
+    </div>
   </div>
 </template>
 
@@ -9,11 +22,12 @@ export default {
   data() {
     return {
       count: "",
-      timeCounter: 180 //3분
+      timeCounter: 180, //3분
+      setTimer: "start"
     };
   },
   mounted() {
-    this.myTimer();
+    // this.myTimer();
   },
 
   methods: {
@@ -23,6 +37,8 @@ export default {
         this.timeCounter = this.timeCounter - 1;
         setTimeout(this.myTimer, 1000);
       } else {
+        this.setTimer = "reset";
+
         console.log("end");
       }
     }
@@ -47,19 +63,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1,
-h2 {
-  font-weight: normal;
+.startBtn {
+  border: 1px;
+  text-align: center;
+  background-color: darkkhaki;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.settimer {
+  border: 1px green;
 }
 </style>
