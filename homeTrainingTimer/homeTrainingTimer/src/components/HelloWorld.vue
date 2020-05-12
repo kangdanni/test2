@@ -28,9 +28,9 @@
       </div>
     </div>
 
-    <div>
+    <!-- <div>
       <input style="border:1px solid" type="text" v-model="timeCounter" />
-    </div>
+    </div> -->
     <!-- <div class="timer_loop2">
       <div>
         🙇‍♀️
@@ -87,7 +87,11 @@
         </button>
       </div> -->
     </div>
-    <edit-modal :editModal="editModal" @closeModal="closeModal"></edit-modal>
+    <edit-modal
+      :editModal="editModal"
+      @closeModal="closeModal"
+      @editTime="editTime"
+    ></edit-modal>
   </div>
 </template>
 
@@ -97,7 +101,7 @@ export default {
   components: {
     EditModal
   },
-
+  //props: ["editTimer"],
   data() {
     return {
       editModal: false,
@@ -121,6 +125,14 @@ export default {
   },
 
   methods: {
+    editTime(obj) {
+      this.round = obj.inputRound;
+      this.cycle = obj.inputCycle;
+      this.timeCounter = obj.inputTime;
+
+      this.defaultTimeCounter = this.timeCounter;
+      console.log("kkkcscs");
+    },
     timerInterval() {
       if (!this.setTime) {
         var time = 10;
@@ -160,7 +172,7 @@ export default {
     timerLoop() {
       this.timerBtn = 1;
 
-      if (this.count < 5) {
+      if (this.count < this.defaultTimeCounter) {
         this.countTime();
         if (this.timeCounter <= 3) {
           this.isBlink = true;
