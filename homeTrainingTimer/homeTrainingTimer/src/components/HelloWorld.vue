@@ -11,21 +11,27 @@
     <div class="greetings">
       헬린이 💪
     </div>
-    <div class="timer_loop1" :class="{ break_time: isBreak }">
-      <!-- <div class="refresh_btn">
+    <div>
+      <div class="edit_btn">
+        <i class="far fa-edit" @click="editModal = true"></i>
+      </div>
+
+      <div class="refresh_btn">
         <button @click="refresh">
           <i class="fas fa-sync-alt"></i>
         </button>
-      </div> -->
-      <div class="timer" :class="{ blinking: isBlink }">
-        {{ seconds }}
+      </div>
+      <div class="timer_loop1" :class="{ break_time: isBreak }">
+        <div class="timer" :class="{ blinking: isBlink }">
+          {{ seconds }}
+        </div>
       </div>
     </div>
 
     <div>
-      <input style="border:1px solid" type="text" v-model="setTime" />
+      <input style="border:1px solid" type="text" v-model="timeCounter" />
     </div>
-    <div class="timer_loop2">
+    <!-- <div class="timer_loop2">
       <div>
         🙇‍♀️
       </div>
@@ -37,7 +43,7 @@
       <div id="demo">
         {{ defaultTime }}
       </div>
-    </div>
+    </div> -->
 
     <div>
       <div class="bottom_btns">
@@ -45,7 +51,7 @@
           {{ round }}
         </div>
         <div class="play_btn">
-          <button v-if="timerBtn == 0" @click="timerLoop">
+          <button v-if="timerBtn == 0" @click="timerLoop(setTime)">
             <i class="far fa-play-circle"></i>
           </button>
           <button v-if="timerBtn == 1" @click="pause">
@@ -81,23 +87,30 @@
         </button>
       </div> -->
     </div>
+    <edit-modal :editModal="editModal" @closeModal="closeModal"></edit-modal>
   </div>
 </template>
 
 <script>
+import EditModal from "./EditModal.vue";
 export default {
+  components: {
+    EditModal
+  },
+
   data() {
     return {
+      editModal: false,
       count: "",
-      timeCounter: 10,
+      timeCounter: 5,
+      defaultTimeCounter: 5,
       timerBtn: 0, // 0 :start  1: pause
       isBlink: false,
       isBreak: false,
       timerON: "",
-      counter: 10,
+      // counter: 10,
       sCount: "",
       setTime: "",
-      defaultTime: "0:10",
       round: 3,
       cycle: 3,
       isTurn: true
@@ -136,16 +149,18 @@ export default {
     timerIntervalLoop() {
       console.log("kkk몰라");
     },
+
     countTime() {
       this.count++;
+      console.log("kkkk");
       this.timeCounter = this.timeCounter - 1;
       this.timerOn = setTimeout(this.timerLoop, 1000);
     },
 
     timerLoop() {
-      //this.isBreak = false;
       this.timerBtn = 1;
-      if (this.count < 10) {
+
+      if (this.count < 5) {
         this.countTime();
         if (this.timeCounter <= 3) {
           this.isBlink = true;
@@ -190,7 +205,10 @@ export default {
       this.pause();
       this.count = 0;
       this.isBlink = false;
-      this.timeCounter = 10;
+      this.timeCounter = this.defaultTimeCounter;
+    },
+    closeModal() {
+      this.editModal = false;
     }
   },
 
@@ -243,11 +261,15 @@ export default {
 .timer_loop1 {
   height: 200px;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   color: whitesmoke;
   font-family: Arial, Helvetica, sans-serif;
   background-color: dodgerblue;
+}
+
+.edit_btn {
+  display: block;
 }
 
 .break_time {
@@ -268,11 +290,12 @@ export default {
 .timer {
   font-size: 70px;
   font-weight: bold;
+  display: inline-block;
   /* text-align: center; */
 }
 
 .refresh_btn {
-  float: right;
+  flex: none;
   margin-left: 5px;
   font-size: 15px;
 }
