@@ -133,6 +133,8 @@ export default {
       this.timeCounter = obj.inputTime;
 
       this.defaultTimeCounter = this.timeCounter;
+      this.defaultCycle = this.cycle;
+      this.defaultRound = this.round;
       console.log("kkkcscs");
     },
     timerInterval() {
