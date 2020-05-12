@@ -28,7 +28,7 @@
         />
       </div>
       <div class="submit">
-        <button @click="$emit('editTime', editTimer)">submit</button>
+        <button @click="submit">submit</button>
       </div>
     </div>
   </div>
@@ -44,7 +44,7 @@ export default {
   props: ["editModal"],
   data() {
     return {
-      closeModal: false,
+      //closeModal: false,
       editTimer: {
         inputTime: "",
         inputRound: "",
@@ -53,7 +53,12 @@ export default {
     };
   },
 
-  methods: {}
+  methods: {
+    submit() {
+      this.$emit("editTime", this.editTimer);
+      this.$emit("closeModal");
+    }
+  }
 };
 </script>
 

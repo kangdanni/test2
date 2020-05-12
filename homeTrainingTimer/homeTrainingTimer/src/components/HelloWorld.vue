@@ -106,8 +106,8 @@ export default {
     return {
       editModal: false,
       count: "",
-      timeCounter: 5,
-      defaultTimeCounter: 5,
+      timeCounter: 30,
+      defaultTimeCounter: 30,
       timerBtn: 0, // 0 :start  1: pause
       isBlink: false,
       isBreak: false,
@@ -117,7 +117,9 @@ export default {
       setTime: "",
       round: 3,
       cycle: 3,
-      isTurn: true
+      isTurn: true,
+      defaultRound: 3,
+      defaultCycle: 3
     };
   },
   mounted() {
@@ -194,7 +196,7 @@ export default {
           if (this.cycle == 0) {
             this.refresh();
             this.roundRefresh();
-
+            this.cycleRefresh();
             alert("운동 끝!");
           }
           //alert("timeout");
@@ -210,9 +212,11 @@ export default {
     },
 
     roundRefresh() {
-      this.round = 3;
+      this.round = this.defaultRound;
     },
-
+    cycleRefresh() {
+      this.cycle = this.defaultCycle;
+    },
     refresh() {
       this.pause();
       this.count = 0;
