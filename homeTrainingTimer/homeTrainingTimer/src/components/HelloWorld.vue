@@ -114,22 +114,27 @@ export default {
       } else {
         var time = this.setTime;
       }
+
       var min = "";
       var sec = "";
 
-      var x = setInterval(function() {
+      var x = setInterval(() => {
         min = parseInt(time / 60);
         sec = ("0" + (time % 60)).slice(-2);
-
         document.getElementById("demo").innerHTML = min + ":" + sec;
         time--;
         console.log(time);
-
         if (time < 0) {
+          this.round--;
+
           clearInterval(x);
           document.getElementById("demo").innerHTML = "end";
         }
       }, 1000);
+    },
+
+    timerIntervalLoop() {
+      console.log("kkk몰라");
     },
     countTime() {
       this.count++;
@@ -152,16 +157,33 @@ export default {
           this.timerLoop();
         }
         if (this.round == 0) {
-          this.refresh();
+          if (this.cycle > 0) {
+            this.cycle--;
+            this.refresh();
+            this.roundRefresh();
+            this.timerLoop();
+          }
+
+          if (this.cycle == 0) {
+            this.refresh();
+            this.roundRefresh();
+
+            alert("운동 끝!");
+          }
+          //alert("timeout");
+          // this.isBreak = true;
+          // this.refresh();
         }
-        //alert("timeout");
-        // this.isBreak = true;
-        // this.refresh();
       }
     },
+
     pause() {
       clearTimeout(this.timerOn);
       this.timerBtn = 0;
+    },
+
+    roundRefresh() {
+      this.round = 3;
     },
 
     refresh() {
