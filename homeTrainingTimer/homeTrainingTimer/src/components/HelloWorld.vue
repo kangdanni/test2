@@ -50,7 +50,7 @@
         <div class="left_round">
           {{ round }}
         </div>
-        <div class="play_btn">
+        <div class="play_btn" :class="classObj">
           <button v-if="timerBtn == 0" @click="timerLoop(setTime)">
             <i class="far fa-play-circle"></i>
           </button>
@@ -68,8 +68,8 @@
         <div class="left_round">
           round
         </div>
-        <div class="play_btn">
-          시작
+        <div class="play_btn" :class="classObj">
+          {{ btnTxt }}
         </div>
         <div class="left_cycle">
           cycle
@@ -119,7 +119,8 @@ export default {
       cycle: 3,
       isTurn: true,
       defaultRound: 3,
-      defaultCycle: 3
+      defaultCycle: 3,
+      btnTxt: "시작"
     };
   },
   mounted() {
@@ -231,6 +232,10 @@ export default {
   },
 
   computed: {
+    classObj() {
+      this.btnTxt = this.timerBtn == 1 ? "정지" : "시작";
+      return this.timerBtn == 1 ? "pause_btn" : "";
+    },
     seconds() {
       return this.modifiedDate;
     },
@@ -265,7 +270,7 @@ export default {
   margin: 0px 5%;
   width: 30%;
   box-sizing: border-box;
-  color: blueviolet;
+  color: dodgerblue;
 }
 .left_cycle {
   flex: 1;
@@ -310,6 +315,9 @@ export default {
   font-weight: bold;
   display: inline-block;
   /* text-align: center; */
+}
+.pause_btn {
+  color: grey;
 }
 
 .refresh_btn {
