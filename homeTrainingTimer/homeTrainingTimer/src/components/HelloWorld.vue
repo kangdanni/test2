@@ -20,7 +20,7 @@
       </div>
 
       <div class="refresh_btn">
-        <button @click="refresh">
+        <button @click="initTimer">
           <i class="fas fa-sync-alt"></i>
         </button>
       </div>
@@ -230,6 +230,11 @@ export default {
       this.count = 0;
       this.isBlink = false;
       this.timeCounter = this.defaultTimeCounter;
+    },
+    initTimer() {
+      this.refresh();
+      this.cycle = this.defaultCycle;
+      this.round = this.defaultRound;
     },
     closeModal() {
       this.editModal = false;
