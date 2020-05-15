@@ -11,7 +11,9 @@
     <div class="greetings">
       헬린이 💪
     </div>
-
+    <div>
+      {{ computeTotalAmt }}
+    </div>
     <div class="upper-side-btns">
       <div class="edit_btn">
         <button @click="editModal = true">
@@ -242,6 +244,11 @@ export default {
   },
 
   computed: {
+    computeTotalAmt() {
+      var a = this.defaultTimeCounter * this.defaultRound * this.defaultCycle;
+
+      return Math.trunc(a / 60) + ":" + ("0" + (a % 60)).slice(-2);
+    },
     classObj() {
       this.btnTxt = this.timerBtn == 1 ? "정지" : "시작";
       return this.timerBtn == 1 ? "pause_btn" : "";
