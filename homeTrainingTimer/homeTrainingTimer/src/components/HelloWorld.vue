@@ -136,7 +136,7 @@ export default {
 
   methods: {
     test() {
-      console.log("text");
+      console.log("text333");
     },
     editTime(obj) {
       this.round = obj.inputRound;
