@@ -11,9 +11,7 @@
     <div class="greetings">
       헬린이 💪
     </div>
-    <div>
-      {{ computeTotalAmt }}
-    </div>
+    <div>{{ computeTotalAmt }}</div>
     <div class="upper-side-btns">
       <div class="edit_btn">
         <button @click="editModal = true">
@@ -34,10 +32,13 @@
         </div>
       </div>
     </div>
-
-    <!-- <div>
-      <input style="border:1px solid" type="text" v-model="timeCounter" />
-    </div> -->
+    <div>
+      <div class="timer_loop2" :class="{ break_time: isBreak }">
+        <div class="timer" :class="{ blinking: isBlink }">
+          {{ breakSeconds }}
+        </div>
+      </div>
+    </div>
     <!-- <div class="timer_loop2">
       <div>
         🙇‍♀️
@@ -113,8 +114,8 @@ export default {
     return {
       editModal: false,
       count: "",
-      timeCounter: 30,
-      defaultTimeCounter: 30,
+      timeCounter: 10,
+      defaultTimeCounter: 10,
       timerBtn: 0, // 0 :start  1: pause
       isBlink: false,
       isBreak: false,
@@ -127,7 +128,12 @@ export default {
       isTurn: true,
       defaultRound: 3,
       defaultCycle: 3,
-      btnTxt: "시작"
+      btnTxt: "시작",
+      healthMode: true,
+      breakCount: "",
+      breakTimeCounter: 10,
+      defaultBreakTimeCounter: 10,
+      breakTImerON: ""
     };
   },
   mounted() {
@@ -143,7 +149,6 @@ export default {
       this.defaultTimeCounter = this.timeCounter;
       this.defaultCycle = this.cycle;
       this.defaultRound = this.round;
-      console.log("kkkcscs");
     },
     timerInterval() {
       if (!this.setTime) {
@@ -170,15 +175,28 @@ export default {
       }, 1000);
     },
 
-    timerIntervalLoop() {
-      console.log("kkk몰라");
+    countTime() {
+      if (this.healthMode) {
+        this.count++;
+        this.timeCounter = this.timeCounter - 1;
+        this.timerOn = setTimeout(this.timerLoop, 1000);
+      } else {
+        if (this.cycle > 0) {
+          this.breakCount++;
+          this.breakTimeCounter = this.breakTimeCounter - 1;
+          this.breakTImerON = setTimeout(this.test, 1000);
+        } else {
+          clearTimeout(this.breakTImerON);
+        }
+      }
     },
 
-    countTime() {
-      this.count++;
-      console.log("kkkk");
-      this.timeCounter = this.timeCounter - 1;
-      this.timerOn = setTimeout(this.timerLoop, 1000);
+    test() {
+      if (this.breakTimeCounter === 0) {
+        this.healthMode = true;
+        this.breakTimeCounter = this.defaultBreakTimeCounter;
+      }
+      this.countTime();
     },
 
     timerLoop() {
@@ -190,6 +208,9 @@ export default {
           this.isBlink = true;
         }
       } else {
+        //운동타이머가 끝나면 휴식시간이 시작된다.
+        this.healthMode = false;
+
         if (this.round >= 1) {
           this.round--;
           this.refresh();
@@ -232,11 +253,16 @@ export default {
       this.count = 0;
       this.isBlink = false;
       this.timeCounter = this.defaultTimeCounter;
+
+      this.breakTimeCounter = this.defaultBreakTimeCounter;
+      this.breakCount = 0;
     },
     initTimer() {
       this.refresh();
       this.cycle = this.defaultCycle;
       this.round = this.defaultRound;
+
+      this.healthMode = true;
     },
     closeModal() {
       this.editModal = false;
@@ -256,13 +282,25 @@ export default {
     seconds() {
       return this.modifiedDate;
     },
-
+    breakSeconds() {
+      return this.modifiedBreakDate;
+    },
     modifiedDate: function() {
       // return Math.trunc(this.now)
+
       return (
         Math.trunc(this.timeCounter / 60) +
         " : " +
         ("0" + (this.timeCounter % 60)).slice(-2)
+      );
+    },
+    modifiedBreakDate: function() {
+      // return Math.trunc(this.now)
+
+      return (
+        Math.trunc(this.breakTimeCounter / 60) +
+        " : " +
+        ("0" + (this.breakTimeCounter % 60)).slice(-2)
       );
     }
   }
@@ -300,13 +338,24 @@ export default {
 }
 .timer_loop1 {
   height: 200px;
-  width: 100%;
+  /*width: 100%; */
   display: flex;
   justify-content: space-around;
   align-items: center;
   color: whitesmoke;
-  font-family: Arial, Helvetica, sans-serif;
+  /* font-family: Arial, Helvetica, sans-serif; */
   background-color: dodgerblue;
+}
+
+.timer_loop2 {
+  height: 100px;
+  /* width: 100%; */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: whitesmoke;
+  /* font-family: Arial, Helvetica, sans-serif; */
+  background-color: gold;
 }
 
 .upper-side-btns {
