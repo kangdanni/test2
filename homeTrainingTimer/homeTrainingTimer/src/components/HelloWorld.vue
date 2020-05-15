@@ -11,9 +11,12 @@
     <div class="greetings">
       헬린이 💪
     </div>
-    <div>
+
+    <div class="upper-side-btns">
       <div class="edit_btn">
-        <i class="far fa-edit" @click="editModal = true"></i>
+        <button @click="editModal = true">
+          <i class="far fa-edit"></i>
+        </button>
       </div>
 
       <div class="refresh_btn">
@@ -21,6 +24,8 @@
           <i class="fas fa-sync-alt"></i>
         </button>
       </div>
+    </div>
+    <div>
       <div class="timer_loop1" :class="{ break_time: isBreak }">
         <div class="timer" :class="{ blinking: isBlink }">
           {{ seconds }}
@@ -283,6 +288,7 @@ export default {
 }
 .timer_loop1 {
   height: 200px;
+  width: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -291,8 +297,16 @@ export default {
   background-color: dodgerblue;
 }
 
+.upper-side-btns {
+  display: flex;
+  flex-direction: row-reverse;
+}
 .edit_btn {
-  display: block;
+  margin: 3px 10px;
+}
+.refresh_btn {
+  margin: 4px 20px 3px 3px;
+  font-size: 15px;
 }
 
 .break_time {
@@ -320,18 +334,12 @@ export default {
   color: grey;
 }
 
-.refresh_btn {
-  flex: none;
-  margin-left: 5px;
-  font-size: 15px;
-}
-
-.refresh_btn i {
+/* .refresh_btn i {
   font-size: 20px;
   z-index: -1;
   margin-top: 8px;
   color: tan;
-}
+} */
 
 .blinking {
   -webkit-animation: blink 0.5s ease-in-out infinite alternate;
