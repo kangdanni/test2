@@ -59,7 +59,7 @@
           {{ round }}
         </div>
         <div class="play_btn" :class="classObj">
-          <button v-if="timerBtn == 0" @click="countTime2()">
+          <button v-if="timerBtn == 0" @click="wholeTimerLoop()">
             <i class="far fa-play-circle"></i>
           </button>
           <button v-if="timerBtn == 1" @click="pause">
@@ -131,8 +131,8 @@ export default {
       btnTxt: "시작",
       healthMode: true,
       breakCount: "",
-      breakTimeCounter: 10,
-      defaultBreakTimeCounter: 10,
+      breakTimeCounter: 5,
+      defaultBreakTimeCounter: 5,
       breakTimerON: "",
       totalTimeCounter: "",
       totalTimeCount: "",
@@ -154,37 +154,52 @@ export default {
       this.defaultRound = this.round;
     },
 
+    totalTimerLoop() {},
+
     healthTimerLoop() {
+      console.log("healthtimer");
       if (this.count < this.defaultTimeCounter) {
-        this.countTime2();
+        this.countTimer();
         if (this.timeCounter <= 3) {
           this.isBlink = true;
         }
       } else {
-        this.isBlink = false;
-        console.log("종료");
+        this.round--;
+        if (this.round === 0) {
+          this.cycle--;
+        }
         clearTimeout(this.timerOn);
-
+        this.refresh();
         this.mode = 2;
-        var b = setTimeout(this.breakTimerLoop, 1000);
+        this.countTimer();
+        // if (this.cycle > 0) {
+        //   var b = setTimeout(this.breakTimerLoop, 1000);
+        // }
       }
     },
 
     breakTimerLoop() {
+      console.log("breaktimer");
       if (this.breakCount < this.defaultBreakTimeCounter) {
-        this.countTime2();
+        this.countTimer();
         if (this.breakTimeCounter <= 3) {
           this.isBlink = true;
         }
       } else {
         this.isBlink = false;
-        console.log("휴식종료");
+        //this.cycle--;
         clearTimeout(this.breakTimerON);
         this.mode = 1;
+        this.refresh();
+
+        setTimeout(this.wholeTimerLoop, 1000);
+        if (this.round === 0) {
+          this.roundRefresh();
+        }
       }
     },
-    countTime2() {
-      this.timerBtn = 1;
+    countTimer() {
+      console.log("counttimer");
       //운동모드
       if (this.mode === 1) {
         this.count++;
@@ -195,10 +210,43 @@ export default {
       if (this.mode === 2) {
         this.breakCount++;
         this.breakTimeCounter = this.breakTimeCounter - 1;
-        this.breakTimerON = setTimeout(this.breakTimerLoop, 1000);
+        if (this.round === 0) {
+          if (this.cycle > 0) {
+            this.breakTimerON = setTimeout(this.breakTimerLoop, 1000);
+          } else {
+            alert("운동끝");
+
+            this.refresh();
+            this.roundRefresh();
+            this.cycleRefresh();
+          }
+        } else {
+          this.breakTimerON = setTimeout(this.breakTimerLoop, 1000);
+        }
       }
     },
 
+    wholeTimerLoop() {
+      console.log("wholetimer");
+
+      this.timerBtn = 1;
+      if (this.cycle > 0) {
+        if (this.round > 0) {
+          this.countTimer();
+        } else {
+          // this.cycle--;
+          //this.roundRefresh();
+
+          this.countTimer();
+          // this.wholeTimerLoop();
+        }
+        // } else {
+        //   console.log("end");
+        //   this.refresh();
+        //   this.roundRefresh();
+        //   this.cycleRefresh();
+      }
+    },
     countTime() {
       if (this.healthMode) {
         this.count++;
