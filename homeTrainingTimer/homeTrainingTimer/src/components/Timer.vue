@@ -169,7 +169,7 @@ export default {
           this.cycle--;
         }
         clearTimeout(this.timerOn);
-        this.refresh();
+        this.countRefresh();
         this.mode = 2;
         this.countTimer();
         // if (this.cycle > 0) {
@@ -190,7 +190,7 @@ export default {
         //this.cycle--;
         clearTimeout(this.breakTimerON);
         this.mode = 1;
-        this.refresh();
+        this.countRefresh();
 
         setTimeout(this.wholeTimerLoop, 1000);
         if (this.round === 0) {
@@ -309,19 +309,38 @@ export default {
       }
     },
 
+    // pause() {
+    //   clearTimeout(this.timerOn);
+    //   this.timerBtn = 0;
+    // },
     pause() {
-      clearTimeout(this.timerOn);
       this.timerBtn = 0;
+      if (this.mode === 1) {
+        console.log("운동멈춰");
+        clearTimeout(this.timerOn);
+      } else {
+        console.log("breaktime멈춰");
+        clearTimeout(this.breakTimerON);
+      }
     },
-
     roundRefresh() {
       this.round = this.defaultRound;
     },
     cycleRefresh() {
       this.cycle = this.defaultCycle;
+      this.mode = 1;
+    },
+    countRefresh() {
+      this.count = 0;
+      this.isBlink = false;
+      this.timeCounter = this.defaultTimeCounter;
+
+      this.breakTimeCounter = this.defaultBreakTimeCounter;
+      this.breakCount = 0;
     },
     refresh() {
       this.pause();
+
       this.count = 0;
       this.isBlink = false;
       this.timeCounter = this.defaultTimeCounter;
