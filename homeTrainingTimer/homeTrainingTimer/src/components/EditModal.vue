@@ -38,6 +38,16 @@
             type="text"
           />
         </div>
+        <div id="row4">
+          <span>
+            break :
+          </span>
+          <input
+            v-model="editTimer.inputBreak"
+            style="border:1px solid"
+            type="text"
+          />
+        </div>
       </div>
       <div class="submit">
         <button @click="submit">submit</button>
@@ -60,7 +70,8 @@ export default {
       editTimer: {
         inputTime: "",
         inputRound: "",
-        inputCycle: ""
+        inputCycle: "",
+        inputBreak: ""
       }
     };
   },
@@ -97,7 +108,7 @@ export default {
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
-  height: 35%; /* Could be more or less, depending on screen size */
+  height: 40%; /* Could be more or less, depending on screen size */
 }
 /* The Close Button */
 .close {

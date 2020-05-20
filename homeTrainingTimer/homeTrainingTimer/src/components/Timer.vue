@@ -131,7 +131,7 @@ export default {
       defaultTimeCounter: 10,
       timerBtn: 0, // 0 :start  1: pause
       isBlink: false,
-      isBreak: false,
+      //isBreak: false,
       timerON: "",
       // counter: 10,
       sCount: "",
@@ -161,10 +161,12 @@ export default {
       this.round = obj.inputRound;
       this.cycle = obj.inputCycle;
       this.timeCounter = obj.inputTime;
+      this.breakTimeCounter = obj.inputBreak;
 
       this.defaultTimeCounter = this.timeCounter;
       this.defaultCycle = this.cycle;
       this.defaultRound = this.round;
+      this.defaultBreakTimeCounter = this.breakTimeCounter;
     },
 
     totalTimerLoop() {},
