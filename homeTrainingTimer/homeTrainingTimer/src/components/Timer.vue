@@ -25,20 +25,33 @@
         </button>
       </div>
     </div>
-    <div>
-      <div class="timer_loop1" :class="{ break_time: isBreak }">
-        <div class="timer" :class="{ blinking: isBlink }">
-          {{ seconds }}
+    <div v-show="this.mode == 1">
+      <div>
+        <div class="timer_loop1">
+          <div class="timer" :class="{ blinking: isBlink }">
+            운동 {{ seconds }}
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="timer_loop2">
+          <div class="timer">휴식 {{ breakSeconds }}</div>
         </div>
       </div>
     </div>
-    <div>
-      <div class="timer_loop2" :class="{ break_time: isBreak }">
-        <div class="timer" :class="{ blinking: isBlink }">
-          {{ breakSeconds }}
+    <div v-show="this.mode == 2">
+      <div>
+        <div class="timer_loop1">
+          <div class="timer" :class="{ blinking: isBlink }">
+            휴식 {{ breakSeconds }}
+          </div>
         </div>
       </div>
+      <div class="timer_loop2">
+        <div class="timer">운동 {{ seconds }}</div>
+      </div>
     </div>
+
     <!-- <div class="timer_loop2">
       <div>
         🙇‍♀️
