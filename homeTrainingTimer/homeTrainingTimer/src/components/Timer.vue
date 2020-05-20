@@ -107,7 +107,7 @@
 import EditModal from "./EditModal.vue";
 export default {
   components: {
-    EditModal
+    EditModal,
   },
   //props: ["editTimer"],
   data() {
@@ -136,7 +136,7 @@ export default {
       breakTimerON: "",
       totalTimeCounter: "",
       totalTimeCount: "",
-      mode: 1
+      mode: 1,
     };
   },
   mounted() {
@@ -193,13 +193,15 @@ export default {
         this.countRefresh();
 
         setTimeout(this.wholeTimerLoop, 1000);
-        if (this.round === 0) {
-          this.roundRefresh();
-        }
       }
     },
     countTimer() {
       console.log("counttimer");
+      //Cycle 내 Round가 끝날 때 바로 Round초기화해줌
+      if (this.round === 0 && this.cycle > 0) {
+        this.roundRefresh();
+      }
+
       //운동모드
       if (this.mode === 1) {
         this.count++;
@@ -357,7 +359,7 @@ export default {
     },
     closeModal() {
       this.editModal = false;
-    }
+    },
   },
 
   computed: {
@@ -376,7 +378,7 @@ export default {
     breakSeconds() {
       return this.modifiedBreakDate;
     },
-    modifiedDate: function() {
+    modifiedDate: function () {
       // return Math.trunc(this.now)
 
       return (
@@ -385,7 +387,7 @@ export default {
         ("0" + (this.timeCounter % 60)).slice(-2)
       );
     },
-    modifiedBreakDate: function() {
+    modifiedBreakDate: function () {
       // return Math.trunc(this.now)
 
       return (
@@ -393,8 +395,8 @@ export default {
         " : " +
         ("0" + (this.breakTimeCounter % 60)).slice(-2)
       );
-    }
-  }
+    },
+  },
 };
 </script>
 
