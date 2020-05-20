@@ -71,13 +71,15 @@ export default {
         inputTime: "",
         inputRound: "",
         inputCycle: "",
-        inputBreak: ""
+        inputBreak: "",
+        leftCount: ""
       }
     };
   },
 
   methods: {
     submit() {
+      this.leftCount = this.inputRound * this.inputCycle * 2 - 1;
       this.$emit("editTime", this.editTimer);
       this.$emit("closeModal");
     }

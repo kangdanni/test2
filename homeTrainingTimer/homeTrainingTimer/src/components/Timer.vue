@@ -34,7 +34,7 @@
         </div>
       </div>
       <div>
-        <div class="timer_loop2">
+        <div class="timer_loop2" v-show="this.leftCounter > 1">
           <div class="timer">휴식 {{ breakSeconds }}</div>
         </div>
       </div>
@@ -150,6 +150,8 @@ export default {
       totalTimeCounter: "",
       totalTimeCount: "",
       mode: 1,
+      leftCounter: 0,
+      defaultLeftCount: 0,
     };
   },
   mounted() {
@@ -167,6 +169,9 @@ export default {
       this.defaultCycle = this.cycle;
       this.defaultRound = this.round;
       this.defaultBreakTimeCounter = this.breakTimeCounter;
+
+      this.leftCount;
+      this.defaultLeftCount = this.leftCounter;
     },
 
     totalTimerLoop() {},
@@ -179,6 +184,7 @@ export default {
           this.isBlink = true;
         }
       } else {
+        this.leftCounter--;
         this.round--;
         if (this.round === 0) {
           this.cycle--;
@@ -202,6 +208,7 @@ export default {
         }
       } else {
         this.isBlink = false;
+        this.leftCounter--;
         //this.cycle--;
         clearTimeout(this.breakTimerON);
         this.mode = 1;
@@ -234,6 +241,7 @@ export default {
             alert("운동끝");
 
             this.refresh();
+            this.leftCounter = this.defaultLeftCount;
             this.roundRefresh();
             this.cycleRefresh();
           }
@@ -364,6 +372,8 @@ export default {
 
       this.breakTimeCounter = this.defaultBreakTimeCounter;
       this.breakCount = 0;
+
+      this.leftCount = this.defaultLeftCount;
     },
     initTimer() {
       this.refresh();
@@ -371,6 +381,7 @@ export default {
       this.round = this.defaultRound;
 
       this.healthMode = true;
+      this.mode = 1;
     },
     closeModal() {
       this.editModal = false;
@@ -378,6 +389,10 @@ export default {
   },
 
   computed: {
+    leftCount() {
+      console.log("kkk");
+      return (this.leftCounter = this.defaultRound * this.defaultCycle * 2 - 1);
+    },
     computeTotalAmt() {
       var a = this.defaultTimeCounter * this.defaultRound * this.defaultCycle;
 
