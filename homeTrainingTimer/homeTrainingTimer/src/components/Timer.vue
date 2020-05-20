@@ -234,20 +234,30 @@ export default {
       if (this.mode === 2) {
         this.breakCount++;
         this.breakTimeCounter = this.breakTimeCounter - 1;
-        if (this.round === 0) {
-          if (this.cycle > 0) {
-            this.breakTimerON = setTimeout(this.breakTimerLoop, 1000);
-          } else {
-            alert("운동끝");
-
-            this.refresh();
-            this.leftCounter = this.defaultLeftCount;
-            this.roundRefresh();
-            this.cycleRefresh();
-          }
-        } else {
+        if (this.leftCounter > 1) {
           this.breakTimerON = setTimeout(this.breakTimerLoop, 1000);
+        } else {
+          alert("운동끝");
+
+          this.refresh();
+          this.leftCounter = this.defaultLeftCount;
+          this.roundRefresh();
+          this.cycleRefresh();
         }
+        // if (this.round === 0) {
+        //   if (this.cycle > 0) {
+        //     this.breakTimerON = setTimeout(this.breakTimerLoop, 1000);
+        //   } else {
+        //     alert("운동끝");
+
+        //     this.refresh();
+        //     this.leftCounter = this.defaultLeftCount;
+        //     this.roundRefresh();
+        //     this.cycleRefresh();
+        //   }
+        // } else {
+        //   this.breakTimerON = setTimeout(this.breakTimerLoop, 1000);
+        // }
       }
     },
 
