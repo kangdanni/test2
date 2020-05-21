@@ -11,7 +11,7 @@
     <div class="greetings">
       헬린이 💪
     </div>
-    <div>{{ computeTotalAmt }}</div>
+    <div>{{ timerFormat }}</div>
     <div class="upper-side-btns">
       <div class="edit_btn">
         <button @click="editModal = true">
@@ -148,6 +148,7 @@ export default {
       defaultBreakTimeCounter: 5,
       breakTimerON: "",
       totalTime: "",
+      defaultTotalTime: "",
       mode: 1,
       leftCounter: 0,
       defaultLeftCount: 0,
@@ -167,8 +168,8 @@ export default {
       this.defaultBreakTimeCounter = this.breakTimeCounter;
 
       this.leftCount;
-      this.defaultLeftCount = this.leftCounter;
-      this.computeTotalAmt;
+
+      this.setTotalAmt;
     },
 
     healthTimerLoop() {
@@ -219,13 +220,14 @@ export default {
       if (this.mode === 1) {
         this.count++;
         this.timeCounter = this.timeCounter - 1;
-
+        this.totalTime--;
         this.timerOn = setTimeout(this.healthTimerLoop, 1000);
       }
       //휴식모드
       if (this.mode === 2) {
         this.breakCount++;
         this.breakTimeCounter = this.breakTimeCounter - 1;
+        this.totalTime--;
         if (this.leftCounter > 1) {
           this.breakTimerON = setTimeout(this.breakTimerLoop, 1000);
         } else {
@@ -349,6 +351,8 @@ export default {
       this.breakTimeCounter = this.defaultBreakTimeCounter;
       this.breakCount = 0;
 
+      this.totalTime = this.defaultTotalTime;
+
       // this.leftCounter = this.defaultLeftCount;
     },
     initTimer() {
@@ -364,23 +368,35 @@ export default {
       this.editModal = false;
     },
   },
+
   created() {
     this.leftCount;
+    this.setTotalAmt;
   },
   computed: {
+    setTotalAmt() {
+      var a =
+        this.defaultTimeCounter * this.defaultRound * this.defaultCycle +
+        this.defaultBreakTimeCounter *
+          (this.defaultRound * this.defaultCycle - 1);
+      this.totalTime = a;
+      this.defaultTotalTime = a;
+      // return Math.trunc(a / 60) + ":" + ("0" + (a % 60)).slice(-2);
+    },
+
+    timerFormat() {
+      return (
+        Math.trunc(this.totalTime / 60) +
+        ":" +
+        ("0" + (this.totalTime % 60)).slice(-2)
+      );
+    },
     leftCount() {
       console.log("kkk");
+
       return (this.leftCounter = this.defaultRound * this.defaultCycle * 2 - 1);
     },
-    computeTotalAmt() {
-      var a =
-        (this.defaultBreakTimeCounter + this.defaultTimeCounter) *
-          this.defaultRound *
-          this.defaultCycle -
-        this.defaultBreakTimeCounter;
 
-      return Math.trunc(a / 60) + ":" + ("0" + (a % 60)).slice(-2);
-    },
     classObj() {
       this.btnTxt = this.timerBtn == 1 ? "정지" : "시작";
       return this.timerBtn == 1 ? "pause_btn" : "";
