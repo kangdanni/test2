@@ -147,15 +147,11 @@ export default {
       breakTimeCounter: 5,
       defaultBreakTimeCounter: 5,
       breakTimerON: "",
-      totalTimeCounter: "",
-      totalTimeCount: "",
+      totalTime: "",
       mode: 1,
       leftCounter: 0,
       defaultLeftCount: 0,
     };
-  },
-  mounted() {
-    // this.myTimer();
   },
 
   methods: {
@@ -172,9 +168,8 @@ export default {
 
       this.leftCount;
       this.defaultLeftCount = this.leftCounter;
+      this.computeTotalAmt;
     },
-
-    totalTimerLoop() {},
 
     healthTimerLoop() {
       console.log("healthtimer");
@@ -193,9 +188,6 @@ export default {
         this.countRefresh();
         this.mode = 2;
         this.countTimer();
-        // if (this.cycle > 0) {
-        //   var b = setTimeout(this.breakTimerLoop, 1000);
-        // }
       }
     },
 
@@ -218,7 +210,6 @@ export default {
       }
     },
     countTimer() {
-      console.log("counttimer");
       //Cycle 내 Round가 끝날 때 바로 Round초기화해줌
       if (this.round === 0 && this.cycle > 0) {
         this.roundRefresh();
@@ -228,6 +219,7 @@ export default {
       if (this.mode === 1) {
         this.count++;
         this.timeCounter = this.timeCounter - 1;
+
         this.timerOn = setTimeout(this.healthTimerLoop, 1000);
       }
       //휴식모드
@@ -239,25 +231,12 @@ export default {
         } else {
           alert("운동끝");
 
-          this.refresh();
-          this.leftCounter = this.defaultLeftCount;
-          this.roundRefresh();
-          this.cycleRefresh();
+          this.initTimer();
+          // this.refresh();
+          // this.leftCounter = this.defaultLeftCount;
+          // this.roundRefresh();
+          // this.cycleRefresh();
         }
-        // if (this.round === 0) {
-        //   if (this.cycle > 0) {
-        //     this.breakTimerON = setTimeout(this.breakTimerLoop, 1000);
-        //   } else {
-        //     alert("운동끝");
-
-        //     this.refresh();
-        //     this.leftCounter = this.defaultLeftCount;
-        //     this.roundRefresh();
-        //     this.cycleRefresh();
-        //   }
-        // } else {
-        //   this.breakTimerON = setTimeout(this.breakTimerLoop, 1000);
-        // }
       }
     },
 
@@ -265,21 +244,8 @@ export default {
       console.log("wholetimer");
 
       this.timerBtn = 1;
-      if (this.cycle > 0) {
-        if (this.round > 0) {
-          this.countTimer();
-        } else {
-          // this.cycle--;
-          //this.roundRefresh();
-
-          this.countTimer();
-          // this.wholeTimerLoop();
-        }
-        // } else {
-        //   console.log("end");
-        //   this.refresh();
-        //   this.roundRefresh();
-        //   this.cycleRefresh();
+      if (this.leftCounter > 0) {
+        this.countTimer();
       }
     },
     countTime() {
@@ -383,28 +349,35 @@ export default {
       this.breakTimeCounter = this.defaultBreakTimeCounter;
       this.breakCount = 0;
 
-      this.leftCount = this.defaultLeftCount;
+      // this.leftCounter = this.defaultLeftCount;
     },
     initTimer() {
       this.refresh();
-      this.cycle = this.defaultCycle;
-      this.round = this.defaultRound;
+      this.cycleRefresh();
+      this.roundRefresh();
+
+      this.leftCounter = this.defaultLeftCount;
 
       this.healthMode = true;
-      this.mode = 1;
     },
     closeModal() {
       this.editModal = false;
     },
   },
-
+  created() {
+    this.leftCount;
+  },
   computed: {
     leftCount() {
       console.log("kkk");
       return (this.leftCounter = this.defaultRound * this.defaultCycle * 2 - 1);
     },
     computeTotalAmt() {
-      var a = this.defaultTimeCounter * this.defaultRound * this.defaultCycle;
+      var a =
+        (this.defaultBreakTimeCounter + this.defaultTimeCounter) *
+          this.defaultRound *
+          this.defaultCycle -
+        this.defaultBreakTimeCounter;
 
       return Math.trunc(a / 60) + ":" + ("0" + (a % 60)).slice(-2);
     },
