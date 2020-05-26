@@ -352,15 +352,13 @@ export default {
       this.breakCount = 0;
 
       this.totalTime = this.defaultTotalTime;
-
+      this.leftCount;
       // this.leftCounter = this.defaultLeftCount;
     },
     initTimer() {
       this.refresh();
       this.cycleRefresh();
       this.roundRefresh();
-
-      this.leftCounter = this.defaultLeftCount;
 
       this.healthMode = true;
     },
