@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template>
   <div>
     <link
@@ -120,7 +121,7 @@
 import EditModal from "./EditModal.vue";
 export default {
   components: {
-    EditModal,
+    EditModal
   },
   //props: ["editTimer"],
   data() {
@@ -151,7 +152,7 @@ export default {
       defaultTotalTime: "",
       mode: 1,
       leftCounter: 0,
-      defaultLeftCount: 0,
+      defaultLeftCount: 0
     };
   },
 
@@ -303,7 +304,7 @@ export default {
             this.refresh();
             this.roundRefresh();
             this.cycleRefresh();
-            alert("운동 끝!");
+            console.log("운동 끝!");
           }
           //alert("timeout");
           // this.isBreak = true;
@@ -352,8 +353,11 @@ export default {
       this.breakCount = 0;
 
       this.totalTime = this.defaultTotalTime;
-      this.leftCount;
+      //this.leftCounter = 3;
+      //this.leftCount;
       // this.leftCounter = this.defaultLeftCount;
+      this.leftCounter =
+        parseInt(this.defaultRound) * parseInt(this.defaultCycle) * 2 - 1;
     },
     initTimer() {
       this.refresh();
@@ -364,7 +368,7 @@ export default {
     },
     closeModal() {
       this.editModal = false;
-    },
+    }
   },
 
   created() {
@@ -390,9 +394,10 @@ export default {
       );
     },
     leftCount() {
-      console.log("kkk");
+      console.log("leftcount");
 
-      return (this.leftCounter = this.defaultRound * this.defaultCycle * 2 - 1);
+      return (this.leftCounter =
+        parseInt(this.defaultRound) * parseInt(this.defaultCycle) * 2 - 1);
     },
 
     classObj() {
@@ -405,7 +410,7 @@ export default {
     breakSeconds() {
       return this.modifiedBreakDate;
     },
-    modifiedDate: function () {
+    modifiedDate: function() {
       // return Math.trunc(this.now)
 
       return (
@@ -414,7 +419,7 @@ export default {
         ("0" + (this.timeCounter % 60)).slice(-2)
       );
     },
-    modifiedBreakDate: function () {
+    modifiedBreakDate: function() {
       // return Math.trunc(this.now)
 
       return (
@@ -422,8 +427,8 @@ export default {
         " : " +
         ("0" + (this.breakTimeCounter % 60)).slice(-2)
       );
-    },
-  },
+    }
+  }
 };
 </script>
 
