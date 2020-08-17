@@ -234,7 +234,7 @@ export default {
         } else {
           alert("운동끝");
 
-          this.initTimer();
+          this.refreshTimer();
           // this.refresh();
           // this.leftCounter = this.defaultLeftCount;
           // this.roundRefresh();
@@ -359,12 +359,21 @@ export default {
       this.leftCounter =
         parseInt(this.defaultRound) * parseInt(this.defaultCycle) * 2 - 1;
     },
-    initTimer() {
+
+    refreshTimer() {
       this.refresh();
       this.cycleRefresh();
       this.roundRefresh();
 
       this.healthMode = true;
+    },
+
+    initTimer() {
+      if (confirm("are you sure?")) {
+        this.refreshTimer();
+      } else {
+        console.log("go on");
+      }
     },
     closeModal() {
       this.editModal = false;
